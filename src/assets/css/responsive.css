@@ -1,0 +1,91 @@
+@media only screen and (max-width:1750px){}
+@media only screen and (max-width:1600px){}
+@media only screen and (max-width:1540px){
+	.navItem .title, .navItem .navIcon {
+		font-size: 13px;
+		letter-spacing: 0px;
+	}
+	.navItem {
+		max-width: 120px;
+	}
+	.sideMenu {
+		max-width: 150px;
+	}
+	.mainContent {
+		width: 100%; 
+		padding: 10px 20px 20px 170px;
+	}
+	.rqstBtn {
+		width: 75px;
+		height: 35px;
+	}
+	.requestRow .leftContent .name {
+		width: calc(100% - 40px);
+		font-size: 14px;
+	}
+	.rqstImg {
+		width: 30px;
+		height: 30px;
+	}
+	.loginWrap {
+		max-width: 425px;
+		width: 100%;
+	}
+}
+@media only screen and (max-width:1440px){}
+@media only screen and (max-width:1366px){}
+@media only screen and (max-width:1280px){}
+@media only screen and (max-width:1024px){
+	.stellarnav.mobile ul {
+		background: #202124;
+	}
+	.stellarnav.mobile>ul>li>a {
+		padding: 15px!important;
+	}
+	.stellarnav ul ul {
+		border: none;
+	}
+	.stellarnav ul ul li a{
+		font-size: 14px;
+		padding-left: 25px;
+	}
+	.stellarnav .icon-close:after, .stellarnav .icon-close:before {
+		border-bottom: solid 3px #fff;
+	}
+	.stellarnav .menu-toggle span.bars {
+		display: flex;
+		margin-right: 0;
+		position: relative;
+		top: 2px;
+		flex-direction: column;
+	}
+	.stellarnav.mobile .menu-toggle {
+		width: 44px;
+		height: 44px;
+		background: var(--color-1);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 100%;
+		position: fixed;
+		top: 15px;
+		right: 10px;
+		box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+		border: 2px solid #fff;
+	}
+	.stellarnav .menu-toggle span.bars span {
+		display: block;
+		width: 20px;
+		height: 2px;
+		border-radius: 6px;
+		background: #fff;
+		margin: 0 0 3px;
+	}
+}
+@media only screen and (max-width:991px){}
+@media only screen and (max-width:767px){}
+@media only screen and (max-width:660px){}
+@media only screen and (max-width:575px){}
+@media only screen and (max-width:480px){}
+@media only screen and (max-width:375px){}
+@media only screen and (max-width:340px){}
