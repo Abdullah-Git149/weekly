@@ -1,7 +1,21 @@
 import React from 'react'
-import { Link } from "react-router-dom"
-
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from "react-router-dom"
+import { userLogout } from "../store/slices/userSlice"
 const SideMenu = () => {
+
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const handleLogout = async () => {
+        try {
+            await dispatch(userLogout()).unwrap()
+            navigate("/login")
+        } catch (rejectedValueOrSerializedError) {
+            console.log(rejectedValueOrSerializedError)
+        }
+    }
+
     return (
         <div>
             <aside className="sideMenu relClass">
@@ -40,19 +54,19 @@ const SideMenu = () => {
                         </Link>
                     </li>
                     <li>
-                        <a href="#!" className="navItem">
+                        <Link to="/content-managment" className="navItem">
                             <span className="navIcon xy-center"><i className="fa-solid fa-bars-staggered" /></span>
                             <p className="title pt-2">Content Management</p>
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="#!" className="navItem">
+                        <Link to="/misc-setting-managment" className="navItem">
                             <span className="navIcon xy-center"><i className="fa-solid fa-gear" /></span>
                             <p className="title pt-2">Misc Settings</p>
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="#!" className="navItem">
+                        <a href="#!" className="navItem" onClick={() => handleLogout()}>
                             <span className="navIcon xy-center"><i className="fa-solid fa-power-off" /></span>
                             <p className="title pt-2">Logout</p>
                         </a>

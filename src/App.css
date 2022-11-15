@@ -2,3 +2,27 @@
   margin: 0;
   padding: 0;
 }
+
+.daily_table{
+	background-color: red;
+	width: 100%;
+  border: 1px solid black;
+
+}
+
+.daily_table_head{
+  background-color: aqua;
+  border: 1px solid black;
+}
+
+.daily_table_head tr th{
+  text-align: center;
+  border: 1px solid black;
+}
+
+.daily_table_body tr td{
+  text-align: center;
+  background-color: yellowgreen;
+  border: 1px solid black;
+
+}

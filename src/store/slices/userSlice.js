@@ -9,11 +9,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 axios.defaults.baseURL = process.env.REACT_APP_APIURL
 
+const userToken = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : null
+const profileData = JSON.parse(localStorage.getItem('profile')) ? JSON.parse(localStorage.getItem('profile')) : []
 
 const initialState = {
     status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
     error: null,
-    // token: userToken,
+    token: userToken,
     user_id: null,
     // profile: profileData,
     allusers: null,
@@ -27,9 +29,11 @@ const initialState = {
 
 
 
-export const signinUser = createAsyncThunk('admin/signin', async (bodyData, { rejectWithValue }) => {
+export const signinUser = createAsyncThunk('vendor/sign-in', async (bodyData, { rejectWithValue }) => {
     try {
-        const response = await axios.post(`admin/signin`, bodyData)
+        const response = await axios.post(`vendor/sign-in`, bodyData)
+
+
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -175,7 +179,7 @@ export const updatePassword = createAsyncThunk('admin/changepassword', async (bo
 
 export const updateTcpp = createAsyncThunk('admin/TcPp', async (bodyData, { rejectWithValue }) => {
     try {
-         const token = JSON.parse(localStorage.getItem('user'));
+        const token = JSON.parse(localStorage.getItem('user'));
         let config = {
             headers: {
                 "Authorization": token,
@@ -227,15 +231,17 @@ export const newpassword = createAsyncThunk('user/newpassword', async (bodyData,
 })
 
 
-export const userLogout = createAsyncThunk('admin/signout', async (bodyData = null, { rejectWithValue }) => {
+export const userLogout = createAsyncThunk('vendor/log-out', async (bodyData = null, { rejectWithValue }) => {
     try {
         const token = JSON.parse(localStorage.getItem('user'));
+
+
         let config = {
             headers: {
                 "Authorization": token,
             }
         }
-        const response = await axios.post(`admin/signout`, false, config)
+        const response = await axios.post(`vendor/log-out`, false, config)
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -369,17 +375,19 @@ const userSlice = createSlice({
             })
             .addCase(signinUser.fulfilled, (state, action) => {
                 state.status = 'succeeded'
-                toast.success(action.payload.Message, {
+
+                console.log("hello", action.payload.message)
+                toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
-                localStorage.setItem("user", JSON.stringify(action.payload.data));
-                state.token = action.payload.data
+                localStorage.setItem("user", JSON.stringify(action.payload.data.authentication));
+                state.token = action.payload.data.authentication
                 state.error = null
             })
             .addCase(signinUser.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
-                toast.error(action.payload.Message, {
+                state.error = action.payload.message
+                toast.error(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
@@ -783,5 +791,9 @@ const userSlice = createSlice({
             })
     }
 })
+
+
+export const getUserToken = (state) => state.users.token;
+
 
 export default userSlice.reducer

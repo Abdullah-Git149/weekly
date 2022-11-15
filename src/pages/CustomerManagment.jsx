@@ -108,7 +108,7 @@ const CustomerManagment = () => {
                             // onClick={(e) => BlockUser(x._id, e)}
                             className="btn btn-sm mr-1 ml-1"
                             title=""
-                            style={{ backgroundColor: "#FF7F00", color: "white" }}
+                            style={{ backgroundColor: "#ED3240", color: "white" }}
                         >
              Delete
                         </button>

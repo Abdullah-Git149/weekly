@@ -18,33 +18,56 @@ import Calender from './pages/Calender';
 import TechnicianManagment from './pages/TechnicianManagment';
 import AddNewTechnician from './pages/AddNewTechnician';
 import DailySchedule from './pages/DailySchedule';
+import { getUserToken } from "./store/slices/userSlice"
+import { useSelector } from 'react-redux';
+import ContentManagment from './pages/ContentManagment';
+import MiscSetting from './pages/MiscSetting';
 function App() {
+
+  const authToken = useSelector(getUserToken)
+
+
   return (
     <ContextProvider>
       <>
 
+
         <BrowserRouter>
-          <Routes>
+          {
+            authToken ? <>
 
-            <Route path='*' element={<Navigate to="/dashboard" />} />
-            <Route path="/dashboard" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/add-new-customer" element={<AddNew />} />
-            <Route path="/edit-address" element={<EditAddress />} />
-            <Route path="/edit-generator" element={<EditGenerator />} />
-            <Route path="/forget-password" element={<ForgetPassword />} />
-            <Route path="/customer-managment" element={<CustomerManagment />} />
-            <Route path="/generator-managment" element={<GeneratorManagment />} />
-            <Route path="/edit-customer" element={<EditCustomer />} />
-            <Route path="/add-new-generator" element={<AddNewGenerator />} />
-            <Route path="/request-managment" element={<RequestManagment />} />
-            <Route path="/add-request" element={<AddRequest />} />
-            <Route path="/calender-view" element={<Calender />} />
-            <Route path="/technician-managment" element={<TechnicianManagment />} />
-            <Route path="/add-new-technician" element={<AddNewTechnician />} />
-            <Route path="/daily-schedule" element={<DailySchedule />} />
+              <Routes>
 
-          </Routes>
+                <Route path='*' element={<Navigate to="/dashboard" />} />
+                <Route path="/dashboard" element={<Home />} />
+                <Route path="/add-new-customer" element={<AddNew />} />
+                <Route path="/edit-address" element={<EditAddress />} />
+                <Route path="/edit-generator" element={<EditGenerator />} />
+                <Route path="/customer-managment" element={<CustomerManagment />} />
+                <Route path="/generator-managment" element={<GeneratorManagment />} />
+                <Route path="/edit-customer" element={<EditCustomer />} />
+                <Route path="/add-new-generator" element={<AddNewGenerator />} />
+                <Route path="/request-managment" element={<RequestManagment />} />
+                <Route path="/add-request" element={<AddRequest />} />
+                <Route path="/calender-view" element={<Calender />} />
+                <Route path="/technician-managment" element={<TechnicianManagment />} />
+                <Route path="/add-new-technician" element={<AddNewTechnician />} />
+                <Route path="/daily-schedule" element={<DailySchedule />} />
+                <Route path="/content-managment" element={<ContentManagment />} />
+                <Route path="/misc-setting-managment" element={<MiscSetting />} />
+
+              </Routes>
+
+            </> :
+              <>
+                <Routes>
+                  <Route path="*" element={<Navigate to="/login" />} />
+                  <Route path="/login" exact element={<Login />} />
+                  <Route path="/forget-password" exact element={<ForgetPassword />} />
+                </Routes>
+              </>
+
+          }
         </BrowserRouter>
       </>
 

@@ -1,11 +1,172 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SideMenu from '../components/SideMenu'
 import TopBar from '../components/TopBar'
-
+import { MDBBtn } from 'mdb-react-ui-kit';
+import { MDBDataTableV5 } from "mdbreact";
 const GeneratorManagment = () => {
+
+    const [tablebody, setTableBody] = useState([]);
+
+    const [genList, setGenlist] = useState([
+        {
+            genName: 'Tiger Nixon',
+            genModNum: 'System Architect',
+            genSerNum: 'Edinburgh',
+            age: '61',
+            date: '2011/04/25',
+            salary: '$320',
+
+        },
+        {
+            genName: 'Garrett Winters',
+            genModNum: 'Accountant',
+            genSerNum: 'Tokyo',
+            age: '63',
+            date: '2011/07/25',
+            salary: '$170',
+        },
+        {
+            genName: 'Ashton Cox',
+            genModNum: 'Junior Technical Author',
+            genSerNum: 'San Francisco',
+            age: '66',
+            date: '2009/01/12',
+            salary: '$86',
+        },
+        {
+            genName: 'Cedric Kelly',
+            genModNum: 'Senior Javascript Developer',
+            genSerNum: 'Edinburgh',
+            age: '22',
+            date: '2012/03/29',
+            salary: '$433',
+        },
+        {
+            genName: 'Airi Satou',
+            genModNum: 'Accountant',
+            genSerNum: 'Tokyo',
+            age: '33',
+            date: '2008/11/28',
+            salary: '$162',
+        },
+        {
+            genName: 'Brielle Williamson',
+            genModNum: 'Integration Specialist',
+            genSerNum: 'New York',
+            age: '61',
+            date: '2012/12/02',
+            salary: '$372',
+        },
+        {
+            genName: 'Brielle Williamson',
+            genModNum: 'Integration Specialist',
+            genSerNum: 'New York',
+            age: '61',
+            date: '2012/12/02',
+            salary: '$372',
+        },
+        {
+            genName: 'Brielle Williamson',
+            genModNum: 'Integration Specialist',
+            genSerNum: 'New York',
+            age: '61',
+            date: '2012/12/02',
+            salary: '$372',
+        },
+    ])
+
+    useEffect(() => {
+        if (!genList) {
+            return <></>;
+        } else if (genList) {
+            const userDataFiltered = genList?.map((x) => {
+                //Getting user image
+
+                let jsx = (
+                    <>
+                        {/* <Link to={`user-details/${x._id}`}> */}
+                        <button
+                            type="button"
+                            className="btn btn-sm btn-default"
+                            title="View Details"
+                            data-for="send"
+                            data-tip="true"
+                            currentitem="false"
+                        // onClick={() => navigate("/user-details", { state: x?._id })}
+                        >
+                            {/* <AiFillEye /> */}
+                            Edit
+                            {/* <i className="icon-eye"></i> */}
+                        </button>
+                        {/* </Link> */}
+
+                        {/* button condition */}
+
+                        <button
+                            //  to={'*'}
+                            // onClick={(e) => BlockUser(x._id, e)}
+                            className="btn btn-sm mr-1 ml-1"
+                            title=""
+                            style={{ backgroundColor: "#FF7F00", color: "white" }}
+                        >
+                            Delete
+                        </button>
+
+                    </>
+                );
+
+                x.action = jsx;
+                return x;
+            });
+
+            setTableBody({
+                columns: [
+                    {
+                        label: "Generator Manufacturer",
+                        field: "genName",
+                        sort: "asc",
+                        width: 50,
+                    },
+                    {
+                        label: "Generator Model Number",
+                        field: "genModNum",
+                        width: 50,
+                    },
+                    {
+                        label: "Generator Serial Number",
+                        field: "genSerNum",
+                        width: 50,
+                    },
+                    {
+                        label: "age",
+                        field: "age",
+                        width: 50,
+                    },
+                    // {
+                    //   label: "Gender",
+                    //   field: "user_gender",
+                    //   width: 50,
+                    // },
+                    {
+                        label: "date",
+                        field: "date",
+                        width: 50,
+                    },
+                    {
+                        label: "Action",
+                        field: "action",
+                        width: 50,
+                    },
+                ],
+
+                rows: userDataFiltered ? userDataFiltered : [],
+            });
+        }
+    }, [genList]);
     return (
         <div>
+            
             <section className="dashboardWrap">
                 <SideMenu />
                 <div className="mainContent">
@@ -15,16 +176,39 @@ const GeneratorManagment = () => {
                         <div className="row pt-2">
                             <div className="col-12">
                                 <div className="btnWrap">
-                                    <a className="ctBtn" data-bs-toggle="modal" data-bs-target="#genModal-3">Manage Estimated Generators</a>
+                                    {/* <a className="ctBtn" data-bs-toggle="modal" data-bs-target="#genModal-3">Manage Estimated Generators</a>
                                     <Link to="/add-new-generator" className="ctBtn clr-1" >Add New Generators</Link>
 
                                     <a className="ctBtn clr-2">Delete Generators</a>
 
-                                    <a href="#!" className="ctBtn clr-2">Restore Generators</a>
+                                    <a href="#!" className="ctBtn clr-2">Restore Generators</a> */}
+
+
+                                    <Link to="/calender-view"><MDBBtn className='me-1'>Manage Estimated Generators</MDBBtn></Link>
+                                    <Link to="/add-new-generator" > <MDBBtn className='me-1' color='success'> Add New Generators</MDBBtn></Link>
+                                    <Link to="/"  > <MDBBtn className='me-1' color='danger'> Delete Generators</MDBBtn></Link>
+                                    <Link to="/"  > <MDBBtn className='mx-2' color='dark'>Restore Generators </MDBBtn></Link>
+
                                 </div>
                                 <div className="genBox type-2">
 
-                                    <table id="myTable" className="display">
+
+                                    <MDBDataTableV5
+                                        noBottomColumns
+                                        className="table table-hover js-basic-example dataTable table-custom spacing5"
+                                        entriesOptions={[5, 10, 20, 25]}
+                                        entries={5}
+                                        paging
+                                        pagesAmount={15}
+                                        data={tablebody}
+
+                                    // searchTop
+                                    // sortRows={['user_name']}
+                                    //searchBottom={true}
+                                    // onPageChange={()=>{ activePage: 2, pagesAmount: 5 }}
+                                    />
+
+                                    {/* <table id="myTable" className="display">
                                         <thead>
                                             <tr>
                                                 <th>
@@ -209,7 +393,7 @@ const GeneratorManagment = () => {
                                             </tr>
 
                                         </tbody>
-                                    </table>
+                                    </table> */}
                                 </div>
                             </div>
                         </div>
@@ -228,10 +412,10 @@ const GeneratorManagment = () => {
 
 
 
-            
-       
+
+
             {/* MANAGE ESTIMATED GENERATORS MODAL */}
-        
+
 
 
             <div className="modal fade detailModal type-2" id="genModal-3" tabIndex={-1} aria-labelledby="genModal" aria-hidden="true">
