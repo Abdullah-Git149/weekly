@@ -2,7 +2,7 @@ import React from 'react'
 import SideMenu from '../components/SideMenu'
 import TopBar from '../components/TopBar'
 
-const AddNew = () => {
+const AddNewCustomer = () => {
   return (
     <div>
         <section className="dashboardWrap">
@@ -144,4 +144,4 @@ const AddNew = () => {
   )
 }
 
-export default AddNew
+export default AddNewCustomer

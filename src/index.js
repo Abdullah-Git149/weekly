@@ -15,7 +15,7 @@ root.render(
     <Provider store={Store}> 
       <App />
       <ToastContainer
-        autoClose={3500}
+        autoClose={2500}
         newestOnTop={true}
       />
     </Provider>

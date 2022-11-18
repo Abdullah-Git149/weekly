@@ -22,6 +22,8 @@ const Login = () => {
         try {
 
 
+            console.log("login" , email , password)
+         
             await dispatch(signinUser({ email, password })).unwrap()
             navigate('/dashboard');
             try {
@@ -58,6 +60,7 @@ const Login = () => {
                                 </span>
                                 <span toggle="#password-field" className="fa fa-fw fa-eye field-icon toggle-password" />
                             </div>
+                            <Link to="/sign-up" className="desc forgetPass btnDefault marginAuto xy-center pt-3 pb-4">Create Account</Link>
                             <Link to="/forget-password" className="desc forgetPass btnDefault marginAuto xy-center pt-3 pb-4">Forgot Password?</Link>
                             {/* <a href="#!" className=>Login</a> */}
                             <button type="submit" className="xy-center genBtn" >Log In</button>

@@ -4,8 +4,10 @@ import TopBar from '../components/TopBar'
 import { Link } from "react-router-dom"
 import { MDBDataTableV5 } from "mdbreact";
 import { useState, useEffect } from 'react';
-import { AiFillEye } from "react-icons/ai"
+ 
 const CustomerManagment = () => {
+
+
     const [tablebody, setTableBody] = useState([]);
 
     const [userList, setUserlist] = useState([
@@ -110,7 +112,7 @@ const CustomerManagment = () => {
                             title=""
                             style={{ backgroundColor: "#ED3240", color: "white" }}
                         >
-             Delete
+                            Delete
                         </button>
 
                     </>

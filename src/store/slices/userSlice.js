@@ -29,12 +29,23 @@ const initialState = {
 
 
 
-export const signinUser = createAsyncThunk('vendor/sign-in', async (bodyData, { rejectWithValue }) => {
+export const signinUser = createAsyncThunk('auth/login', async (bodyData, { rejectWithValue }) => {
     try {
-        const response = await axios.post(`vendor/sign-in`, bodyData)
-
+        const response = await axios.post(`/auth/login`, bodyData)
 
         return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})
+export const signUpUser = createAsyncThunk('auth/login', async (bodyData, { rejectWithValue }) => {
+    try {
+
+        console.log(bodyData)
+
+        const response = await axios.post(`/auth/signUp`, bodyData)
+        console.log(response)
+        // return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
     }
@@ -376,12 +387,14 @@ const userSlice = createSlice({
             .addCase(signinUser.fulfilled, (state, action) => {
                 state.status = 'succeeded'
 
+                console.log(action.payload.data.token, "payload")
+
                 console.log("hello", action.payload.message)
                 toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
-                localStorage.setItem("user", JSON.stringify(action.payload.data.authentication));
-                state.token = action.payload.data.authentication
+                localStorage.setItem("user", JSON.stringify(action.payload.data.token));
+                state.token = action.payload.data.token
                 state.error = null
             })
             .addCase(signinUser.rejected, (state, action) => {
@@ -407,7 +420,7 @@ const userSlice = createSlice({
             })
             .addCase(userProfile.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
+                state.error = action.payload.message
             })
 
 
@@ -419,14 +432,14 @@ const userSlice = createSlice({
             .addCase(editProfile.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.error = null
-                toast.success(action.payload.Message, {
+                toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             .addCase(editProfile.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
-                toast.error(action.payload.Message, {
+                state.error = action.payload.message
+                toast.error(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
@@ -439,14 +452,14 @@ const userSlice = createSlice({
             .addCase(updatePassword.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.error = null
-                toast.success(action.payload.Message, {
+                toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             .addCase(updatePassword.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
-                toast.error(action.payload.Message, {
+                state.error = action.payload.message
+                toast.error(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
@@ -459,14 +472,14 @@ const userSlice = createSlice({
             .addCase(addLocation.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.error = null
-                toast.success(action.payload.Message, {
+                toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             .addCase(addLocation.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
-                toast.error(action.payload.Message, {
+                state.error = action.payload.message
+                toast.error(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
@@ -479,14 +492,14 @@ const userSlice = createSlice({
             .addCase(addCard.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.error = null
-                toast.success(action.payload.Message, {
+                toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             .addCase(addCard.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
-                toast.error(action.payload.Message, {
+                state.error = action.payload.message
+                toast.error(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
@@ -503,7 +516,7 @@ const userSlice = createSlice({
             })
             .addCase(getAllUsers.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
+                state.error = action.payload.message
             })
 
 
@@ -518,7 +531,7 @@ const userSlice = createSlice({
             })
             .addCase(getAllBusiness.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
+                state.error = action.payload.message
             })
 
 
@@ -528,14 +541,14 @@ const userSlice = createSlice({
             .addCase(deleteAccount.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.error = null
-                toast.success(action.payload.Message, {
+                toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             .addCase(deleteAccount.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
-                toast.error(action.payload.Message, {
+                state.error = action.payload.message
+                toast.error(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
@@ -548,14 +561,14 @@ const userSlice = createSlice({
             .addCase(blockUnblock.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.error = null
-                toast.success(action.payload.Message, {
+                toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             .addCase(blockUnblock.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
-                toast.error(action.payload.Message, {
+                state.error = action.payload.message
+                toast.error(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
@@ -568,14 +581,14 @@ const userSlice = createSlice({
                 state.status = 'succeeded'
                 state.error = null
                 state.user_id = action.payload.user_id
-                toast.success(action.payload.Message, {
+                toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             .addCase(forgetPass.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
-                toast.error(action.payload.Message, {
+                state.error = action.payload.message
+                toast.error(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
@@ -588,14 +601,14 @@ const userSlice = createSlice({
             .addCase(resendCode.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.error = null
-                toast.success(action.payload.Message, {
+                toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             .addCase(resendCode.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
-                toast.error(action.payload.Message, {
+                state.error = action.payload.message
+                toast.error(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
@@ -609,14 +622,14 @@ const userSlice = createSlice({
             .addCase(verifyAccount.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.error = null
-                toast.success(action.payload.Message, {
+                toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             .addCase(verifyAccount.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
-                toast.error(action.payload.Message, {
+                state.error = action.payload.message
+                toast.error(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
@@ -629,14 +642,14 @@ const userSlice = createSlice({
             .addCase(newpassword.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.error = null
-                toast.success(action.payload.Message, {
+                toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             .addCase(newpassword.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
-                toast.error(action.payload.Message, {
+                state.error = action.payload.message
+                toast.error(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
@@ -648,7 +661,7 @@ const userSlice = createSlice({
                 state.status = 'loading'
             })
             .addCase(userLogout.fulfilled, (state, action) => {
-                toast.success(action.payload.Message, {
+                toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
                 state.status = 'succeeded'
@@ -657,11 +670,11 @@ const userSlice = createSlice({
                 state.token = null
             })
             .addCase(userLogout.rejected, (state, action) => {
-                toast.error(action.payload.Message, {
+                toast.error(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
                 state.status = 'failed'
-                state.error = action.payload.Message
+                state.error = action.payload.message
             })
 
 
@@ -676,7 +689,7 @@ const userSlice = createSlice({
             .addCase(getAllCards.rejected, (state, action) => {
                 state.cards = null
                 state.status = 'failed'
-                state.error = action.payload.Message
+                state.error = action.payload.message
             })
 
 
@@ -687,13 +700,13 @@ const userSlice = createSlice({
             .addCase(setCardDefault.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.error = null
-                toast.success(action.payload.Message, {
+                toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             .addCase(setCardDefault.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
+                state.error = action.payload.message
             })
 
 
@@ -704,13 +717,13 @@ const userSlice = createSlice({
             .addCase(deleteCard.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.error = null
-                toast.success(action.payload.Message, {
+                toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             .addCase(deleteCard.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
+                state.error = action.payload.message
             })
 
 
@@ -724,7 +737,7 @@ const userSlice = createSlice({
             })
             .addCase(TcPp.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
+                state.error = action.payload.message
             })
 
             .addCase(updateTcpp.pending, (state, action) => {
@@ -734,13 +747,13 @@ const userSlice = createSlice({
                 state.status = 'succeeded'
                 state.error = null
                 state.TcPp = action.payload.tcAndPp
-                toast.success(action.payload.Message, {
+                toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             .addCase(updateTcpp.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
+                state.error = action.payload.message
             })
 
 
@@ -755,7 +768,7 @@ const userSlice = createSlice({
             })
             .addCase(getTotalCouponChart.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
+                state.error = action.payload.message
             })
 
 
@@ -771,7 +784,7 @@ const userSlice = createSlice({
             })
             .addCase(getRedeemedCouponChart.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
+                state.error = action.payload.message
             })
 
 
@@ -787,7 +800,7 @@ const userSlice = createSlice({
             })
             .addCase(getPresentedCouponChart.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.Message
+                state.error = action.payload.message
             })
     }
 })

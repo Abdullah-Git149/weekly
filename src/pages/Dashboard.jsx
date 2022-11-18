@@ -5,7 +5,7 @@ import TopBar from '../components/TopBar'
 import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 
 
-const Home = () => {
+const Dashboard = () => {
     return (
         <div>
             <section className="dashboardWrap">
@@ -278,4 +278,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default Dashboard

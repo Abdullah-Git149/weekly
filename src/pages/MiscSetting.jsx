@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SideMenu from '../components/SideMenu'
 import TopBar from '../components/TopBar'
-
+import { AiFillSave } from "react-icons/ai"
+import { MdCancel } from "react-icons/md"
 const MiscSetting = () => {
+    const [state, setState] = useState(false)
+
+  
+
+
+    console.log(state)
     return (
         <div>
             <section className="dashboardWrap">
@@ -21,10 +28,23 @@ const MiscSetting = () => {
                                             <div className="col-6">
                                                 <label>Maintenance Charges for Air Cooled Generator</label>
                                             </div>
-                                            <div className="col-6 d-flex align-item-center">
-                                                <input type="text" className="inputItem" placeholder defaultValue="$ 210" required />
-                                                <a hefr="#!" className="editBtn xy-center"><i className="fa-solid fa-pen-to-square" /></a>
-                                            </div>
+                                            {
+                                                state == false ? <>
+                                                    <div className="col-6 d-flex align-item-center">
+                                                        <input type="text" className="inputItem" placeholder defaultValue="$ 210" required disabled />
+                                                        <a hefr="#!" className="editBtn xy-center"><i className="fa-solid fa-pen-to-square" onClick={()=>setState(true)} /></a>
+                                                    </div>
+                                                </> :
+                                                    <>
+                                                        <div className="col-6 d-flex align-item-center">
+                                                            <input type="text" className="inputItem" placeholder defaultValue="$ 210" required />
+                                                            <AiFillSave className="editBtn xy-center" />
+                                                            <MdCancel onClick={()=>setState(false)} className="editBtn xy-center" />
+                                                           
+                                                        </div>
+                                                    </>
+                                            }
+
                                         </div>
                                         <div className="form-group">
                                             <div className="col-6">
