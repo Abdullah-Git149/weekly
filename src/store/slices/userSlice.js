@@ -10,14 +10,14 @@ import 'react-toastify/dist/ReactToastify.css';
 axios.defaults.baseURL = process.env.REACT_APP_APIURL
 
 const userToken = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : null
-const profileData = JSON.parse(localStorage.getItem('profile')) ? JSON.parse(localStorage.getItem('profile')) : []
+const profileData = JSON.parse(localStorage.getItem('profile')) ? JSON.parse(localStorage.getItem('profile')) : null
 
 const initialState = {
     status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
     error: null,
     token: userToken,
     user_id: null,
-    // profile: profileData,
+    profile: profileData,
     allusers: null,
     allbusiness: null,
     cards: null,
@@ -28,7 +28,7 @@ const initialState = {
 }
 
 
-
+// USER SIGN IN
 export const signinUser = createAsyncThunk('auth/login', async (bodyData, { rejectWithValue }) => {
     try {
         const response = await axios.post(`/auth/login`, bodyData)
@@ -38,18 +38,32 @@ export const signinUser = createAsyncThunk('auth/login', async (bodyData, { reje
         return rejectWithValue(error.response.data)
     }
 })
-export const signUpUser = createAsyncThunk('auth/login', async (bodyData, { rejectWithValue }) => {
+
+// USER SIGN UP
+export const signUpUser = createAsyncThunk('auth/signUp', async (bodyData, { rejectWithValue }) => {
     try {
 
         console.log(bodyData)
 
         const response = await axios.post(`/auth/signUp`, bodyData)
         console.log(response)
-        // return response.data
+        return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
     }
 })
+
+// FORGET PASSWORD
+export const forgetPass = createAsyncThunk('auth/forgotPassword', async (bodyData, { rejectWithValue }) => {
+    try {
+        const response = await axios.post(`/auth/forgotPassword`, bodyData)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})
+
+
 
 export const userProfile = createAsyncThunk('admin/profile', async (bodyData = null, { rejectWithValue }) => {
     try {
@@ -203,14 +217,6 @@ export const updateTcpp = createAsyncThunk('admin/TcPp', async (bodyData, { reje
     }
 })
 
-export const forgetPass = createAsyncThunk('user/forgetpassword', async (bodyData, { rejectWithValue }) => {
-    try {
-        const response = await axios.post(`user/forgetpassword`, bodyData)
-        return response.data
-    } catch (error) {
-        return rejectWithValue(error.response.data)
-    }
-})
 
 export const resendCode = createAsyncThunk('user/resendotp', async (bodyData, { rejectWithValue }) => {
     try {
@@ -387,20 +393,48 @@ const userSlice = createSlice({
             .addCase(signinUser.fulfilled, (state, action) => {
                 state.status = 'succeeded'
 
-                console.log(action.payload.data.token, "payload")
-
-                console.log("hello", action.payload.message)
+                console.log("hello", action.payload)
                 toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
                 localStorage.setItem("user", JSON.stringify(action.payload.data.token));
                 state.token = action.payload.data.token
+
+                 localStorage.setItem("profile", JSON.stringify(action.payload.data));
+                state.profile = action.payload.data
+
                 state.error = null
             })
             .addCase(signinUser.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.payload.message
-                toast.error(action.payload.message, {
+                state.error = action.payload.error.msg
+                toast.error(action.payload.error.msg, {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+            })
+
+            // SIGN UP
+            .addCase(signUpUser.pending, (state, action) => {
+                state.status = 'loading'
+            })
+            .addCase(signUpUser.fulfilled, (state, action) => {
+                state.status = 'succeeded'
+
+                console.log(action)
+
+
+                toast.success(action.payload.message, {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+           
+                state.error = null
+            })
+            .addCase(signUpUser.rejected, (state, action) => {
+                state.status = 'failed'
+
+                console.log(action)
+                state.error = action.payload.error.msg
+                toast.error(action.payload.error.msg, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
@@ -578,17 +612,19 @@ const userSlice = createSlice({
                 state.status = 'loading'
             })
             .addCase(forgetPass.fulfilled, (state, action) => {
+                console.log(action)
                 state.status = 'succeeded'
                 state.error = null
-                state.user_id = action.payload.user_id
+           
                 toast.success(action.payload.message, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             .addCase(forgetPass.rejected, (state, action) => {
+                console.log()
                 state.status = 'failed'
-                state.error = action.payload.message
-                toast.error(action.payload.message, {
+                state.error = action.payload.error.msg
+                toast.error(action.payload.error.msg, {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
@@ -805,8 +841,8 @@ const userSlice = createSlice({
     }
 })
 
-
-export const getUserToken = (state) => state.users.token;
+ export const getUserToken = (state) => state.users.token;
+export const getUserProfile = (state) => state.users.profile;
 
 
 export default userSlice.reducer

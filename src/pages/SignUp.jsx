@@ -17,6 +17,7 @@ const SignUp = () => {
     const [option, setOption] = useState(1)
 
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -24,7 +25,7 @@ const SignUp = () => {
             console.log(userRole)
 
             await dispatch(signUpUser({ email, name, password, phone, countryCode, userRole, option })).unwrap()
-            // navigate('/dashboard');
+            navigate('/login');
             try {
                 // await dispatch(userProfile()).unwrap()
             } catch (rejectedValueOrSerializedError) {

@@ -8,12 +8,11 @@ const SideMenu = () => {
     const dispatch = useDispatch()
 
     const handleLogout = async () => {
-        try {
-            await dispatch(userLogout()).unwrap()
-            navigate("/login")
-        } catch (rejectedValueOrSerializedError) {
-            console.log(rejectedValueOrSerializedError)
-        }
+
+        localStorage.removeItem("user")
+        localStorage.removeItem("profile")
+
+
     }
 
     return (
@@ -66,7 +65,7 @@ const SideMenu = () => {
                         </Link>
                     </li>
                     <li>
-                        <a href="#!" className="navItem" onClick={() => handleLogout()}>
+                        <a href="" className="navItem" onClick={() => handleLogout()}>
                             <span className="navIcon xy-center"><i className="fa-solid fa-power-off" /></span>
                             <p className="title pt-2">Logout</p>
                         </a>
